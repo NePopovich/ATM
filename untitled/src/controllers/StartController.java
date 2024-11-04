@@ -2,11 +2,13 @@ package controllers;
 
 import model.BankAccount;
 import service.AccountService;
+import service.CardService;
 import util.ScannerUtil;
 
 public class StartController {
-    public static void showStartMenu(){
-        System.out.println("Вставьте карту");
+    public static BankAccount showStart(){
+        System.out.println("Введите номер карты");
+        return CardService.getCard(Integer.parseInt(ScannerUtil.getString()));
     }
 
     public static void showPinCodeMenu(){
@@ -32,27 +34,36 @@ public class StartController {
         //return Integer.parseInt(ScannerUtil.getString());
     }
 
-    public static void actions(BankAccount bankAccount){
-        boolean check = true;
-        while (check){
-            showInterface();
-            System.out.print("Выберите опцию: ");
-            switch (Integer.parseInt(ScannerUtil.getString())){
-                case 1:
-                    AccountService.showBalance(bankAccount);
-                    break;
-                case 2:
-                    AccountService.getMoney(bankAccount);
-                    break;
-                case 3:
-                    AccountService.putMoney(bankAccount);
-                    break;
-                case 0:
-                    System.out.println("До свидания");
-                    check = false;
-                    break;
-                default:
-                    System.out.println("Такого действия нет!");
+    public static void actions(){
+        while (true) {
+            BankAccount bankAccount = showStart();
+            if (bankAccount != null) {
+                boolean check = true;
+                while (check) {
+                    showInterface();
+                    System.out.print("Выберите опцию: ");
+                    switch (Integer.parseInt(ScannerUtil.getString())) {
+                        case 1:
+                            AccountService.showBalance(bankAccount);
+                            break;
+                        case 2:
+                            AccountService.getMoney(bankAccount);
+                            break;
+                        case 3:
+                            AccountService.putMoney(bankAccount);
+                            break;
+                        case 0:
+                            System.out.println("До свидания, Заберите карту");
+                            CardService.deleteCurrentCard();
+                            showStart();
+                            check = false;
+                            break;
+                        default:
+                            System.out.println("Такого действия нет!");
+                    }
+                }
+            }else {
+                System.out.println("Заберите Вашу карту");
             }
         }
     }
