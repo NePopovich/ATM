@@ -55,7 +55,6 @@ public class StartController {
                         case 0:
                             System.out.println("До свидания, Заберите карту");
                             CardService.deleteCurrentCard();
-                            showStart();
                             check = false;
                             break;
                         default:

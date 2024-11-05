@@ -21,32 +21,39 @@ public class AccountService {
         return null;
     }
 
-    public static BankAccount getMoney(BankAccount bankAccount) {
+    public static void getMoney(BankAccount bankAccount) {
         StartController.showGetMoney();
         int money = Integer.parseInt(ScannerUtil.getString());
         if (money > 0 && money % 1 == 0) {
             if (bankAccount.balance > money) {
                 bankAccount.balance -= money;
-                System.out.println("Заберите ваши деньги: " + money);
+                System.out.println("Заберите ваши деньги: " + money + "р.");
             } else {
                 System.out.println("На счету недостаточно средств!");
             }
-        }else {
+        } else {
             System.out.println("Введено некорректное число");
         }
-        return bankAccount;
+
     }
 
-    public static BankAccount putMoney(BankAccount bankAccount) {
+    public static void putMoney(BankAccount bankAccount) {
         StartController.showPutMoney();
         int money = Integer.parseInt(ScannerUtil.getString());
-        bankAccount.balance += money;
-        System.out.println("На счет зачислено: " + money + "р.");
+        if (money > 0 && money % 1 == 0) {
+            bankAccount.balance += money;
+            System.out.println("На счет зачислено: " + money + "р.");
+        } else {
+            System.out.println("Введена некорректная сумма");
+        }
 
-        return bankAccount;
     }
 
-    public static void showBalance(BankAccount bankAccount){
-        System.out.println("Баланс счета: " + bankAccount.balance);
+    public static void showBalance(BankAccount bankAccount) {
+        if (bankAccount.balance != 0) {
+            System.out.println("Баланс счета: " + bankAccount.balance);
+        } else {
+            System.out.println("Баланс счета равен нулю");
+        }
     }
 }

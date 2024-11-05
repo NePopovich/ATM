@@ -1,8 +1,8 @@
 package service;
 
+import model.Card;
 import controllers.StartController;
 import model.BankAccount;
-import model.Card;
 import util.Constans;
 import util.ScannerUtil;
 
