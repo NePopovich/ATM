@@ -9,18 +9,25 @@ import util.ScannerUtil;
 public class CardService {
     public static Card currentCard;
 
-    public static BankAccount getCard(int numberCard) { // переделать
-        BankAccount bankAccount = AccountService.findByCardNumber(numberCard);
-        if (bankAccount == null) {
-            System.out.println("Введены неверные данные");
-            return null;
-        } else {
+    public static BankAccount getCard(int numberCard) {
+
+//        if (bankAccount == null) {
+//            System.out.println("Введены неверные данные");
+//            return null;
+//        } else {
+//
+//        }
+        try{
+            BankAccount bankAccount = AccountService.findByCardNumber(numberCard);
             Card card = findCardInAccount(bankAccount, numberCard);
             if (actionCard(card)){
                 return bankAccount;
             }else {
                 return null;
             }
+        }catch (NullPointerException e){
+            System.out.println("Введены неверные данные");
+            return null;
         }
     }
 
