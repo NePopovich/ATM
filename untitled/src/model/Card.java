@@ -15,4 +15,12 @@ public class Card {
         this.status = Constans.STATUS_ACTIVE;
         this.countAttempt = 3;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "numberCard=" + numberCard +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

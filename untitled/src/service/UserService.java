@@ -67,6 +67,8 @@ public class UserService {
                 for (int i = 0; i < user.getNumberBankAccounts().length; i++) {
                     if (user.getNumberBankAccounts()[i] == 0) {
                         user.getNumberBankAccounts()[i] = numberOfBankAccount;
+                        System.out.println("Аккаунт создан");
+                        break;
                     }
                 }
             }else {

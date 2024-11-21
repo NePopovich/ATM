@@ -21,6 +21,15 @@ public class User {
         this.countAttempt = 3;
     }
 
+    public User(String name, String login, String password, int[] numberBankAccounts) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.numberBankAccounts = numberBankAccounts;
+        this.status = Constans.STATUS_ACTIVE;
+        this.countAttempt = 3;
+    }
+
     public int[] getNumberBankAccounts() {
         return numberBankAccounts;
     }
@@ -34,8 +43,8 @@ public class User {
         return "User{" +
                 "name='" + name + '\'' +
                 ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", status='" + status + '\'' +
-                ", numberBankAccounts=" + Arrays.toString(numberBankAccounts) +
                 '}';
     }
 }

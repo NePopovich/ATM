@@ -31,6 +31,7 @@ public class StartController {
         System.out.println("1 - Просмотр баланса. \n" +
                 "2 - Снятие наличных. \n" +
                 "3 - Положить наличные \n" +
+                "4 - Создать новую карту \n" +
                 "0 - Выход");
         System.out.println("------------------");
 
@@ -42,6 +43,7 @@ public class StartController {
         System.out.println("1 - Просмотр счетов. \n" +
                 "2 - Выбор счета для работы. \n" +
                 "3 - Просмотр данных аккаунта \n" +
+                "4 - Создание нового счета \n" +
                 "0 - Выход");
         System.out.println("------------------");
     }
@@ -53,8 +55,8 @@ public class StartController {
         System.out.println("------------------");
     }
 
-    public static void actionsFromCards(){
-        BankAccount bankAccount = showStart();
+    public static void actionsFromCards(BankAccount bankAccount){
+//        BankAccount bankAccount = showStart();
         if (bankAccount != null) {
             boolean check = true;
             while (check) {
@@ -82,7 +84,9 @@ public class StartController {
                         } catch (AccountsException e) {
 
                         }
-
+                        break;
+                    case 4:
+                        AccountService.addNewCard(bankAccount);
                         break;
                     case 0:
                         System.out.println("До свидания, Заберите карту");
@@ -111,10 +115,14 @@ public class StartController {
                         UserService.showBankAccountsFromUser(user);
                         break;
                     case 2:
-                        //todo
+                        System.out.print("Введите номер счета: ");
+                        actionsFromCards(AccountService.getBankAccountFromNumber(Integer.parseInt(ScannerUtil.getString())));
                         break;
                     case 3:
-                        //todo
+                        System.out.println(user);
+                        break;
+                    case 4:
+                        UserService.addBankAccount(user, AccountService.createAccount());
                         break;
                     case 0:
                         System.out.println("До свидания");
@@ -135,7 +143,7 @@ public class StartController {
             System.out.print("Действие: ");
             switch (Integer.parseInt(ScannerUtil.getString())){
                 case 1:
-                    actionsFromCards();
+                    actionsFromCards(showStart());
                     break;
                 case 2:
                     actionsFromUser();

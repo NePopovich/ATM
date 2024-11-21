@@ -66,14 +66,14 @@ public class AccountService {
         for (int i = 0; i < AccountsBase.bankAccounts.length; i++) {
             if (AccountsBase.bankAccounts[i] == null){
                 AccountsBase.bankAccounts[i] = new BankAccount((int) (Math.random() * 900) + 100, 0,
-                        new Card[]{new Card(159000 + ((int) (Math.random() * 900) + 100), 2589), null, null});
+                        new Card[]{CardService.createNewCard(), null, null});
                 return AccountsBase.bankAccounts[i].numberAccount;
             }
         }
         return 0;
     }
 
-    protected static BankAccount getBankAccountFromNumber(int numberBankAccount){
+    public static BankAccount getBankAccountFromNumber(int numberBankAccount){
         for (int i = 0; i < AccountsBase.bankAccounts.length; i++) {
             if (AccountsBase.bankAccounts[i] != null){
                 if (AccountsBase.bankAccounts[i].numberAccount == numberBankAccount){
@@ -83,4 +83,19 @@ public class AccountService {
         }
         return  null;
     }
+
+    public static void addNewCard(BankAccount bankAccount){
+        if (bankAccount.cards != null){
+            for (int i = 0; i < bankAccount.cards.length; i++) {
+                if (bankAccount.cards[i] == null){
+                    bankAccount.cards[i] = CardService.createNewCard();
+                    System.out.println("Новая карта создана");
+                    break;
+                }
+            }
+        }else {
+            bankAccount.cards = new Card[]{CardService.createNewCard(), null, null};
+        }
+    }
+
 }

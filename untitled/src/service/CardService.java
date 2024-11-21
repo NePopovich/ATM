@@ -10,13 +10,6 @@ public class CardService {
     public static Card currentCard;
 
     public static BankAccount getCard(int numberCard) {
-
-//        if (bankAccount == null) {
-//            System.out.println("Введены неверные данные");
-//            return null;
-//        } else {
-//
-//        }
         try{
             BankAccount bankAccount = AccountService.findByCardNumber(numberCard);
             Card card = findCardInAccount(bankAccount, numberCard);
@@ -87,6 +80,10 @@ public class CardService {
             }
         }
         return null;
+    }
+
+    public static Card createNewCard(){
+        return new Card(159000 + ((int) (Math.random() * 900) + 100), (int) (Math.random() * 9000) + 1000);
     }
 
 }
