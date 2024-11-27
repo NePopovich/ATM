@@ -5,21 +5,28 @@ import dataBase.AccountsBase;
 import exceptions.AccountsException;
 import model.BankAccount;
 import model.Card;
+import model.Transaction;
 import util.ScannerUtil;
+
+import java.util.Date;
 
 public class AccountService {
 
     public static BankAccount findByCardNumber(int cardNumb) {
-        for (int i = 0; i < AccountsBase.bankAccounts.length; i++) {
-            if (AccountsBase.bankAccounts[i] != null) {
-                for (int j = 0; j < AccountsBase.bankAccounts[i].cards.length; j++) {
-                    if (AccountsBase.bankAccounts[i].cards[j].numberCard == cardNumb) {
-                        return AccountsBase.bankAccounts[i];
+//        if (AccountsBase.bankAccounts.isEmpty()){
+//            return null;
+//        }else {
+            for (int i = 0; i < AccountsBase.bankAccounts.size(); i++) {
+                if (AccountsBase.bankAccounts.get(i) != null) {
+                    for (int j = 0; j < AccountsBase.bankAccounts.get(i).cards.length; j++) {
+                        if (AccountsBase.bankAccounts.get(i).cards[j].numberCard == cardNumb) {
+                            return AccountsBase.bankAccounts.get(i);
+                        }
                     }
                 }
             }
-        }
-        return null;
+            return null;
+//        }
     }
 
     public static BankAccount getMoney(BankAccount bankAccount) throws AccountsException{
@@ -29,6 +36,7 @@ public class AccountService {
             if (bankAccount.balance > money) {
                 bankAccount.balance -= money;
                 System.out.println("Заберите ваши деньги: " + money + "р.");
+                bankAccount.bankTransactions.add(new Transaction("Снятие наличных", money, new Date()));
             } else {
                 throw new AccountsException("На счету недостаточно средств!");
 //                System.out.println("На счету недостаточно средств!");
@@ -46,6 +54,7 @@ public class AccountService {
         if (money > 0 && money % 1 == 0) {
             bankAccount.balance += money;
             System.out.println("На счет зачислено: " + money + "р.");
+            bankAccount.bankTransactions.add(new Transaction("Зачисление наличных", money, new Date()));
         } else {
             throw new AccountsException("Введена некорректная сумма");
 //            System.out.println("Введена некорректная сумма");
@@ -63,23 +72,22 @@ public class AccountService {
     }
 
     public static int createAccount(){
-        for (int i = 0; i < AccountsBase.bankAccounts.length; i++) {
-            if (AccountsBase.bankAccounts[i] == null){
-                AccountsBase.bankAccounts[i] = new BankAccount((int) (Math.random() * 900) + 100, 0,
-                        new Card[]{CardService.createNewCard(), null, null});
-                return AccountsBase.bankAccounts[i].numberAccount;
-            }
-        }
-        return 0;
+//        for (int i = 0; i < AccountsBase.bankAccounts.length; i++) {
+//            if (AccountsBase.bankAccounts[i] == null){
+                AccountsBase.bankAccounts.add(new BankAccount((int) (Math.random() * 900) + 100, 0,
+                        new Card[]{CardService.createNewCard(), null, null}));
+                return AccountsBase.bankAccounts.getLast().numberAccount;
+//            }
+//        }
+//        return 0;
     }
 
     public static BankAccount getBankAccountFromNumber(int numberBankAccount){
-        for (int i = 0; i < AccountsBase.bankAccounts.length; i++) {
-            if (AccountsBase.bankAccounts[i] != null){
-                if (AccountsBase.bankAccounts[i].numberAccount == numberBankAccount){
-                    return AccountsBase.bankAccounts[i];
+        for (int i = 0; i < AccountsBase.bankAccounts.size(); i++) {
+                if (AccountsBase.bankAccounts.get(i).numberAccount == numberBankAccount){
+                    return AccountsBase.bankAccounts.get(i);
                 }
-            }
+
         }
         return  null;
     }

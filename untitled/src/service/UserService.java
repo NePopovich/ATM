@@ -15,27 +15,27 @@ public class UserService {
         String login = ScannerUtil.getString();
         System.out.print("Введите Ваш пароль: ");
         String password = ScannerUtil.getString();
-        if (AccountsBase.users == null){
-            AccountsBase.users = new User[100];
-            AccountsBase.users[0] = new User(name, login, password);
-        }else {
-            for (int i = 0; i < AccountsBase.users.length; i++) {
-                if (AccountsBase.users[i] == null){
-                    AccountsBase.users[i] = new User(name, login, password);
-                }
-            }
-        }
+        AccountsBase.users.add(new User(name, login, password));
+
+//        if (AccountsBase.users == null){
+//            AccountsBase.users = new User[100];
+//            AccountsBase.users[0] = new User(name, login, password);
+//        }else {
+//            for (int i = 0; i < AccountsBase.users.length; i++) {
+//                if (AccountsBase.users[i] == null){
+//                    AccountsBase.users[i] = new User(name, login, password);
+//                }
+//            }
+//        }
     }
 
     public static User searchUserFromLogin(String login){
-        for (int i = 0; i < AccountsBase.users.length; i++) {
-            if (AccountsBase.users[i] != null){
-                if (AccountsBase.users[i].login.equals(login)){
-                    if (checkPassword(AccountsBase.users[i])){
-                        return AccountsBase.users[i];
+        for (int i = 0; i < AccountsBase.users.size(); i++) {
+                if (AccountsBase.users.get(i).login.equals(login)){
+                    if (checkPassword(AccountsBase.users.get(i))){
+                        return AccountsBase.users.get(i);
                     }
                 }
-            }
         }
         return null;
     }

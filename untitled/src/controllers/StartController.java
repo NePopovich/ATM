@@ -5,6 +5,7 @@ import model.BankAccount;
 import model.User;
 import service.AccountService;
 import service.CardService;
+import service.TransactionService;
 import service.UserService;
 import util.ScannerUtil;
 
@@ -32,6 +33,7 @@ public class StartController {
                 "2 - Снятие наличных. \n" +
                 "3 - Положить наличные \n" +
                 "4 - Создать новую карту \n" +
+                "5 - Просмотр транзакций \n" +
                 "0 - Выход");
         System.out.println("------------------");
 
@@ -87,6 +89,9 @@ public class StartController {
                         break;
                     case 4:
                         AccountService.addNewCard(bankAccount);
+                        break;
+                    case 5:
+                        TransactionService.showTransaction(bankAccount);
                         break;
                     case 0:
                         System.out.println("До свидания, Заберите карту");

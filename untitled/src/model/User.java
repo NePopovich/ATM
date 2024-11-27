@@ -2,6 +2,7 @@ package model;
 
 import util.Constans;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class User {
@@ -11,7 +12,7 @@ public class User {
     public int countAttempt;
     public String status;
     private int[] numberBankAccounts;
-//    public BankAccount[] bankAccounts;
+//    public ArrayList<Transaction> userTransactions;
 
     public User(String name, String login, String password) {
         this.name = name;
