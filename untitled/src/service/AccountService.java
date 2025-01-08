@@ -7,6 +7,7 @@ import model.BankAccount;
 import model.Card;
 import model.Transaction;
 import util.ScannerUtil;
+import view.ViewRus;
 
 import java.util.Date;
 
@@ -36,7 +37,7 @@ public class AccountService {
             if (bankAccount.balance > money) {
                 bankAccount.balance -= money;
                 System.out.println("Заберите ваши деньги: " + money + "р.");
-                bankAccount.bankTransactions.add(new Transaction("Снятие наличных", money, new Date()));
+                bankAccount.bankTransactions.add(new Transaction(ViewRus.MESSAGE_TRANSACTION_GET_MONEY, money, new Date()));
             } else {
                 throw new AccountsException("На счету недостаточно средств!");
 //                System.out.println("На счету недостаточно средств!");
@@ -54,7 +55,7 @@ public class AccountService {
         if (money > 0 && money % 1 == 0) {
             bankAccount.balance += money;
             System.out.println("На счет зачислено: " + money + "р.");
-            bankAccount.bankTransactions.add(new Transaction("Зачисление наличных", money, new Date()));
+            bankAccount.bankTransactions.add(new Transaction(ViewRus.MESSAGE_TRANSACTION_ADD_MONEY, money, new Date()));
         } else {
             throw new AccountsException("Введена некорректная сумма");
 //            System.out.println("Введена некорректная сумма");
@@ -103,6 +104,41 @@ public class AccountService {
             }
         }else {
             bankAccount.cards = new Card[]{CardService.createNewCard(), null, null};
+        }
+    }
+
+    public static void transferMoney(BankAccount bankAccount) throws AccountsException {
+        ViewRus.showTransferOperation();
+        ViewRus.showOperation();
+        switch (Integer.parseInt(ScannerUtil.getString())){
+            case (1):
+                ViewRus.showBankAccountNumb();
+                transferMotion(bankAccount, getBankAccountFromNumber(Integer.parseInt(ScannerUtil.getString())));
+                break;
+            case (2):
+                ViewRus.showCardNumber();
+                transferMotion(bankAccount, CardService.getCard(Integer.parseInt(ScannerUtil.getString())));
+                break;
+            default:
+                ViewRus.showNoMotion();
+        }
+    }
+
+    private static void transferMotion(BankAccount bankAccount, BankAccount bankAccountToTransfer) throws AccountsException {
+        if (bankAccountToTransfer != null) {
+            ViewRus.showCountMoney();
+            int money = Integer.parseInt(ScannerUtil.getString());
+            if (money > 0) {
+                bankAccount.balance -= money;
+                bankAccountToTransfer.balance += money;
+                bankAccount.bankTransactions.add(new Transaction(ViewRus.MESSAGE_TRANSACTION_TRANSFER_MONEY, money, new Date()));
+                bankAccountToTransfer.bankTransactions.add(new Transaction(ViewRus.MESSAGE_TRANSACTION_ADD_MONEY, money, new Date()));
+                ViewRus.showTransferResult();
+            }else {
+                throw new AccountsException("Введена некорректная сумма");
+            }
+        }else {
+            ViewRus.showNoBankAccount();
         }
     }
 

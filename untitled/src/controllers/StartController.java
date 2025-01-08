@@ -9,6 +9,7 @@ import service.CardService;
 import service.TransactionService;
 import service.UserService;
 import util.ScannerUtil;
+import view.ViewRus;
 
 public class StartController {
     public static BankAccount showStart(){
@@ -35,6 +36,7 @@ public class StartController {
                 "3 - Положить наличные \n" +
                 "4 - Создать новую карту \n" +
                 "5 - Просмотр транзакций \n" +
+                "6 - Перевести деньги \n" +
                 "0 - Выход");
         System.out.println("------------------");
 
@@ -59,13 +61,13 @@ public class StartController {
         System.out.println("------------------");
     }
 
-    public static void actionsFromCards(BankAccount bankAccount){
+    public static void actionsFromCards(BankAccount bankAccount) throws AccountsException {
 //        BankAccount bankAccount = showStart();
         if (bankAccount != null) {
             boolean check = true;
             while (check) {
                 showInterface();
-                System.out.print("Выберите опцию: ");
+                ViewRus.showOperation();
                 switch (Integer.parseInt(ScannerUtil.getString())) {
                     case 1:
                         try {
@@ -80,7 +82,6 @@ public class StartController {
                         } catch (AccountsException e) {
 
                         }
-
                         break;
                     case 3:
                         try{
@@ -95,13 +96,16 @@ public class StartController {
                     case 5:
                         TransactionService.showTransaction(bankAccount);
                         break;
+                    case 6:
+                        AccountService.transferMoney(bankAccount);
+                        break;
                     case 0:
                         System.out.println("До свидания, Заберите карту");
                         CardService.deleteCurrentCard();
                         check = false;
                         break;
                     default:
-                        System.out.println("Такого действия нет!");
+                        ViewRus.showNoMotion();
                 }
             }
         }else {
@@ -109,12 +113,12 @@ public class StartController {
         }
     }
 
-    public static void actionsFromUser(User user){
+    public static void actionsFromUser(User user) throws AccountsException {
         if (user != null) {
             boolean check = true;
             while (check) {
                 showInterfaceUser();
-                System.out.print("Выберите опцию: ");
+                ViewRus.showOperation();
                 switch (Integer.parseInt(ScannerUtil.getString())) {
                     case 1:
                         UserService.showBankAccountsFromUser(user);
@@ -134,7 +138,7 @@ public class StartController {
                         check = false;
                         break;
                     default:
-                        System.out.println("Такого действия нет!");
+                        ViewRus.showNoMotion();
                 }
             }
         }else {
@@ -142,10 +146,10 @@ public class StartController {
         }
     }
 
-    public static void actions(){
+    public static void actions() throws AccountsException {
         while (true) {
             showStartInterface();
-            System.out.print("Действие: ");
+            ViewRus.showOperation();
             switch (Integer.parseInt(ScannerUtil.getString())){
                 case 1:
                     actionsFromCards(showStart());
@@ -160,7 +164,7 @@ public class StartController {
                     actionsFromUser(newUser);
                     break;
                 default:
-                    System.out.println("Такого действия нет!");
+                    ViewRus.showNoMotion();
             }
         }
     }
