@@ -11,7 +11,7 @@ public class User {
     public String password;
     public int countAttempt;
     public String status;
-    private int[] numberBankAccounts;
+    private int[] numberBankAccounts; // лучше Set, тогда исключается вариант одинаковых номеров
 //    public ArrayList<Transaction> userTransactions;
 
     public User(String name, String login, String password) {

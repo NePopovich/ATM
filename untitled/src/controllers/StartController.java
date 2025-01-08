@@ -2,6 +2,7 @@ package controllers;
 
 import exceptions.AccountsException;
 import model.BankAccount;
+import model.Transaction;
 import model.User;
 import service.AccountService;
 import service.CardService;
@@ -53,7 +54,8 @@ public class StartController {
     public static void showStartInterface(){
         System.out.println("------------------");
         System.out.println("1 - Вход по номеру карты. \n" +
-                "2 - Вход по логину и паролю.");
+                "2 - Вход по логину и паролю. \n" +
+                "3 - Регистрация нового пользователя.");
         System.out.println("------------------");
     }
 
@@ -107,9 +109,7 @@ public class StartController {
         }
     }
 
-    public static void actionsFromUser(){
-        System.out.print("Введите Ваш логин: ");
-        User user = UserService.searchUserFromLogin(ScannerUtil.getString());
+    public static void actionsFromUser(User user){
         if (user != null) {
             boolean check = true;
             while (check) {
@@ -151,7 +151,13 @@ public class StartController {
                     actionsFromCards(showStart());
                     break;
                 case 2:
-                    actionsFromUser();
+                    System.out.print("Введите Ваш логин: ");
+                    User user = UserService.searchUserFromLogin(ScannerUtil.getString());
+                    actionsFromUser(user);
+                    break;
+                case 3:
+                    User newUser = UserService.createNewUser();
+                    actionsFromUser(newUser);
                     break;
                 default:
                     System.out.println("Такого действия нет!");

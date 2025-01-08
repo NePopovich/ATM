@@ -8,25 +8,16 @@ import util.ScannerUtil;
 
 public class UserService {
 
-    public static void createNewUser(){
+    public static User createNewUser(){
         System.out.print("Введите Ваше имя: ");
         String name = ScannerUtil.getString();
         System.out.print("Введите Ваш логин: ");
         String login = ScannerUtil.getString();
         System.out.print("Введите Ваш пароль: ");
         String password = ScannerUtil.getString();
-        AccountsBase.users.add(new User(name, login, password));
-
-//        if (AccountsBase.users == null){
-//            AccountsBase.users = new User[100];
-//            AccountsBase.users[0] = new User(name, login, password);
-//        }else {
-//            for (int i = 0; i < AccountsBase.users.length; i++) {
-//                if (AccountsBase.users[i] == null){
-//                    AccountsBase.users[i] = new User(name, login, password);
-//                }
-//            }
-//        }
+        User newUser = new User(name, login, password);
+        AccountsBase.users.add(newUser);
+        return newUser;
     }
 
     public static User searchUserFromLogin(String login){
