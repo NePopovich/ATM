@@ -67,6 +67,9 @@ public class StartController {
             boolean check = true;
             while (check) {
                 showInterface();
+                if (bankAccount.balance < 20){
+                    ViewRus.showLowMoney();
+                }
                 ViewRus.showOperation();
                 switch (Integer.parseInt(ScannerUtil.getString())) {
                     case 1:

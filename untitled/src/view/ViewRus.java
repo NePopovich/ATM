@@ -38,4 +38,13 @@ public class ViewRus {
     public static void showNoMotion(){
         System.out.println("Такого действия нет!");
     }
+
+    public static void showBadMoney(){
+        System.out.println("Введена некорректная сумма");
+    }
+
+    public static void showLowMoney(){
+        System.out.println("!!!Баланс счета меньше 20!!!\n" +
+                "------------------");
+    }
 }

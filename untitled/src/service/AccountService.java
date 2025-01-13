@@ -20,8 +20,10 @@ public class AccountService {
             for (int i = 0; i < AccountsBase.bankAccounts.size(); i++) {
                 if (AccountsBase.bankAccounts.get(i) != null) {
                     for (int j = 0; j < AccountsBase.bankAccounts.get(i).cards.length; j++) {
-                        if (AccountsBase.bankAccounts.get(i).cards[j].numberCard == cardNumb) {
-                            return AccountsBase.bankAccounts.get(i);
+                        if (AccountsBase.bankAccounts.get(i).cards[j] != null){
+                            if (AccountsBase.bankAccounts.get(i).cards[j].numberCard == cardNumb) {
+                                return AccountsBase.bankAccounts.get(i);
+                            }
                         }
                     }
                 }
@@ -117,7 +119,7 @@ public class AccountService {
                 break;
             case (2):
                 ViewRus.showCardNumber();
-                transferMotion(bankAccount, CardService.getCard(Integer.parseInt(ScannerUtil.getString())));
+                transferMotion(bankAccount, findByCardNumber(Integer.parseInt(ScannerUtil.getString())));
                 break;
             default:
                 ViewRus.showNoMotion();
@@ -128,14 +130,14 @@ public class AccountService {
         if (bankAccountToTransfer != null) {
             ViewRus.showCountMoney();
             int money = Integer.parseInt(ScannerUtil.getString());
-            if (money > 0) {
+            if (money > 0 && bankAccount.balance > money) {
                 bankAccount.balance -= money;
                 bankAccountToTransfer.balance += money;
                 bankAccount.bankTransactions.add(new Transaction(ViewRus.MESSAGE_TRANSACTION_TRANSFER_MONEY, money, new Date()));
                 bankAccountToTransfer.bankTransactions.add(new Transaction(ViewRus.MESSAGE_TRANSACTION_ADD_MONEY, money, new Date()));
                 ViewRus.showTransferResult();
             }else {
-                throw new AccountsException("Введена некорректная сумма");
+               ViewRus.showBadMoney();
             }
         }else {
             ViewRus.showNoBankAccount();
