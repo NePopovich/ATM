@@ -9,6 +9,7 @@ import model.Transaction;
 import util.ScannerUtil;
 import view.ViewRus;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class AccountService {
@@ -22,6 +23,7 @@ public class AccountService {
                     for (int j = 0; j < AccountsBase.bankAccounts.get(i).cards.length; j++) {
                         if (AccountsBase.bankAccounts.get(i).cards[j] != null){
                             if (AccountsBase.bankAccounts.get(i).cards[j].numberCard == cardNumb) {
+                                CardService.currentCard = AccountsBase.bankAccounts.get(i).cards[j];
                                 return AccountsBase.bankAccounts.get(i);
                             }
                         }
@@ -88,6 +90,7 @@ public class AccountService {
     public static BankAccount getBankAccountFromNumber(int numberBankAccount){
         for (int i = 0; i < AccountsBase.bankAccounts.size(); i++) {
                 if (AccountsBase.bankAccounts.get(i).numberAccount == numberBankAccount){
+                    CardService.currentCard = AccountsBase.bankAccounts.get(i).cards[0];
                     return AccountsBase.bankAccounts.get(i);
                 }
 
@@ -144,4 +147,7 @@ public class AccountService {
         }
     }
 
+    public static void showAllCards(BankAccount bankAccount){
+        Arrays.stream(bankAccount.cards).forEach(System.out::println);
+    }
 }

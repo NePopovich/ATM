@@ -5,6 +5,7 @@ import controllers.StartController;
 import model.BankAccount;
 import util.Constans;
 import util.ScannerUtil;
+import view.ViewRus;
 
 public class CardService {
     public static Card currentCard;
@@ -86,4 +87,24 @@ public class CardService {
         return new Card(159000 + ((int) (Math.random() * 900) + 100), (int) (Math.random() * 9000) + 1000);
     }
 
+    public static void showPinCodeCard(){
+        System.out.println("Number Card: " + currentCard.numberCard);
+        System.out.println("Pin-Code: " + currentCard.pin);
+    }
+
+    public static void showCurrentCard(){
+        System.out.println(currentCard);
+    }
+
+    public static void getCardInAccount(BankAccount bankAccount, int numberCard){
+        for (int i = 0; i < bankAccount.cards.length; i++) {
+            if (bankAccount.cards[i] != null) {
+                if (bankAccount.cards[i].numberCard == numberCard) {
+                    currentCard = bankAccount.cards[i];
+                    System.out.println(ViewRus.MESSAGE_CHANGE_CARD + currentCard);
+                    break;
+                }
+            }
+        }
+    }
 }

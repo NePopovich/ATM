@@ -34,9 +34,9 @@ public class StartController {
         System.out.println("1 - Просмотр баланса. \n" +
                 "2 - Снятие наличных. \n" +
                 "3 - Положить наличные \n" +
-                "4 - Создать новую карту \n" +
-                "5 - Просмотр транзакций \n" +
-                "6 - Перевести деньги \n" +
+                "4 - Просмотр транзакций \n" +
+                "5 - Перевести деньги \n" +
+                "6 - Действия с картами \n" +
                 "0 - Выход");
         System.out.println("------------------");
 
@@ -94,13 +94,13 @@ public class StartController {
                         }
                         break;
                     case 4:
-                        AccountService.addNewCard(bankAccount);
-                        break;
-                    case 5:
                         TransactionService.showTransaction(bankAccount);
                         break;
-                    case 6:
+                    case 5:
                         AccountService.transferMoney(bankAccount);
+                        break;
+                    case 6:
+                        actionFromAccountsCards(bankAccount);
                         break;
                     case 0:
                         System.out.println("До свидания, Заберите карту");
@@ -169,6 +169,38 @@ public class StartController {
                 default:
                     ViewRus.showNoMotion();
             }
+        }
+    }
+
+    public static void actionFromAccountsCards(BankAccount bankAccount){
+        if (bankAccount != null) {
+            boolean check = true;
+            while (check) {
+                ViewRus.showCardMotion();
+                ViewRus.showOperation();
+                switch (Integer.parseInt(ScannerUtil.getString())) {
+                    case 1:
+                        AccountService.showAllCards(bankAccount);
+                        break;
+                    case 2:
+                        CardService.showPinCodeCard();
+                        break;
+                    case 3:
+                        ViewRus.showCardNumber();
+                        CardService.getCardInAccount(bankAccount, Integer.parseInt(ScannerUtil.getString()));
+                        break;
+                    case 4:
+                        AccountService.addNewCard(bankAccount);
+                        break;
+                    case 0:
+                        check = false;
+                        break;
+                    default:
+                        ViewRus.showNoMotion();
+                }
+            }
+        }else {
+            System.out.println("Продолжаем?");
         }
     }
 }

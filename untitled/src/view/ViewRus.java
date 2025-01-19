@@ -4,6 +4,7 @@ public class ViewRus {
     public static final String MESSAGE_TRANSACTION_ADD_MONEY = "Зачисление денег";
     public static final String MESSAGE_TRANSACTION_TRANSFER_MONEY = "Перечисление денег";
     public static final String MESSAGE_TRANSACTION_GET_MONEY = "Снятие денег";
+    public static final String MESSAGE_CHANGE_CARD = "Карта сменена на: ";
 
     public static void showOperation(){
         System.out.print("Выберите действие: ");
@@ -45,6 +46,16 @@ public class ViewRus {
 
     public static void showLowMoney(){
         System.out.println("!!!Баланс счета меньше 20!!!\n" +
+                "------------------");
+    }
+
+    public static void showCardMotion(){
+        System.out.println("------------------ \n" +
+                "1 - Просмотр карт. \n" +
+                "2 - Просмотр пин-кода текущей карты. \n" +
+                "3 - Сменить текущую карту \n" +
+                "4 - Создать новую карту \n" +
+                "0 - Выход \n" +
                 "------------------");
     }
 }
